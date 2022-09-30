@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]){
     char *v[] = {"ls", "-lh", (char*) NULL};
-    execv("ls", v);
+    execvp("ls", v);
 
     printf("%s\n", strerror(errno));
     return 0;
