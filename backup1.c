@@ -67,7 +67,7 @@ void cp(char* orig, char* dest){
     if (pid == 0){
         execlp("cp", "cp", orig, dest, NULL);
         logger("Error exec cp for: ", orig, "->", dest, " ", strerror(errno), NULL);
-        exit(0);
+        exit(1);
     }
     wait(NULL);
     return;
@@ -78,7 +78,7 @@ void gzip(char* filepath){
     if (pid == 0){
         execlp("gzip", "gzip", "-f", filepath, NULL);
         logger("Error exec gzip for: ", filepath, " ", strerror(errno), NULL);
-        exit(0);
+        exit(1);
     }
     wait(NULL);
     return;
@@ -138,7 +138,7 @@ void backup(char* srcPath, char* destPath){
         else if(type == S_IFREG){
             struct stat destStat;
             if(getStat(destPath, dirent->d_name, &destStat, 1) == 0){
-                if(srcStat.st_mtime >= destStat.st_mtime){
+                if(srcStat.st_mtime > destStat.st_mtime){
                     cp(subSrcPath, destPath);
                     gzip(subDestPath);
                 }
