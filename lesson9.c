@@ -11,7 +11,6 @@ int main(){
     struct sockaddr_in addrSelf;
     addrSelf.sin_family = AF_INET;
     addrSelf.sin_port = htons(7777); // 0 если не важно
-addrSelf.sin_port = htons(0);
     //addrSelf.sin_addr.s_addr = INADDR_LOOPBACK; // 1 вариант
     inet_aton("127.0.0.1", &addrSelf.sin_addr); // 2 вариант
 

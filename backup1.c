@@ -30,7 +30,6 @@ int copy(char* pathIn, char* pathOut){
         wBytes = write(fOut, &buf, rBytes);
         if (wBytes != rBytes) return wBytes - rBytes;
     }
-
     close(fIn);
     close(fOut);
     return 0;
