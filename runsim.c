@@ -17,12 +17,12 @@ pid_t execution(char *input) {
 
     pid_t pid;
     if ((pid = fork()) == -1) {
-        fprintf(stdout, "Fork failure.\n");
+        fprintf(stdout, "Fork failure\n");
         return -1;
     }
     else if (pid == 0) {
         execvp(cmdList[0], cmdList);
-        fprintf(stdout, "Command running failure.\n");
+        fprintf(stdout, "Command running failure\n");
         exit(EXIT_FAILURE);
     }
     return pid;
@@ -52,11 +52,11 @@ void handler(int sig) {
 
 
 int main(int argc, char const *argv[]) {
-    if(argc != 2) problem("Wrong number of command line arguments.\n");
+    if(argc != 2) problem("Wrong number of arguments\n");
 
     int maxProcessAmount = 0;
     if((maxProcessAmount = strtol(argv[1], NULL, 10)) == 0)
-        problem("Incorrect command line argument.\n");
+        problem("Incorrect command line argument\n");
 
     signal(SIGCHLD, handler);
 
@@ -67,7 +67,7 @@ int main(int argc, char const *argv[]) {
 
         cmd[strlen(cmd) - 1] = 0;
         if(curProcessAmount >= maxProcessAmount) {
-            printf("Too much commands running, please wait until some exit.\n");
+            printf("Too much commands running, please wait until some exit\n");
             continue;
         }
         else if(execution(cmd) >= 0) ++curProcessAmount;
