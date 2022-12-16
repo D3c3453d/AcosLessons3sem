@@ -1,3 +1,11 @@
 *
-!*.c
-!*.h
+!*.*
+!*/
+
+cmake-build-debug
+.idea
+*.out
+
+!home_work/dish_wash/sem/table
+!home_work/dish_wash/sem/label
+!home_work/dish_wash/msg/label

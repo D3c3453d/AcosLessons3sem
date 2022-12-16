@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <string.h>
 
-#include "logger.c"
+#include "../../logger.c"
 
 const int BUF_SIZE = 4096;
 

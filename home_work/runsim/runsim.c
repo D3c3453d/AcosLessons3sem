@@ -5,11 +5,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-void problem(char* text) {
-    printf("%s\n", text);
-    exit(EXIT_FAILURE);
-}
-
 pid_t execution(char *input) {
     char *cmdList[FILENAME_MAX];
     int i = 0;
@@ -32,10 +27,11 @@ int curProcessAmount = 0;
 
 void handler(int sig) {
     int status;
-    if (waitpid(-1, &status, 0) < 0) {
-        printf("Waitpid error\n");
-    }
-    else {
+    while(1) {
+        if (waitpid(-1, &status, WNOHANG) <= 0) {
+            //printf("Waitpid error\n");
+            break;
+        }
         if (WIFEXITED(status)) {
             printf("exited, status=%d\n", WEXITSTATUS(status));
             curProcessAmount--;
@@ -52,11 +48,16 @@ void handler(int sig) {
 
 
 int main(int argc, char const *argv[]) {
-    if(argc != 2) problem("Wrong number of arguments\n");
+    if(argc != 2) {
+        printf("Wrong number of arguments\n");
+        return 1;
+    }
 
     int maxProcessAmount = 0;
-    if((maxProcessAmount = strtol(argv[1], NULL, 10)) == 0)
-        problem("Incorrect command line argument\n");
+    if((maxProcessAmount = strtol(argv[1], NULL, 10)) == 0) {
+        printf("Incorrect command line argument\n");
+        return 1;
+    }
 
     signal(SIGCHLD, handler);
 
@@ -65,7 +66,6 @@ int main(int argc, char const *argv[]) {
         fgets(cmd, sizeof(cmd), stdin);
         if(feof(stdin)) break;
 
-        cmd[strlen(cmd) - 1] = 0;
         if(curProcessAmount >= maxProcessAmount) {
             printf("Too much commands running, please wait until some exit\n");
             continue;
